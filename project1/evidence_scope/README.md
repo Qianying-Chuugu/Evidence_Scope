@@ -6,10 +6,15 @@ EvidenceScope 是一个面向中文企业与行业研究的学习型 Agent/RAG �
 
 ```text
 evidence_scope/
-├── main.py                       # DeepSeek Tool Calling Agent
+├── main.py                       # 启动入口与组件组装
 ├── project_context.md            # 项目背景、进度与协作约束
 ├── requirements.txt              # Python 依赖
 ├── .env.example                  # 环境变量示例
+├── agent/
+│   ├── harness.py                # Agent Loop、模型调用与异常处理
+│   └── tool_registry.py          # 工具 Schema 与函数调用映射
+├── skills/
+│   └── local_document_qa.py      # 本地文档问答系统提示词
 ├── data/
 │   ├── CATL_2025.pdf             # 宁德时代 2025 年年度报告
 │   ├── documents/                # 新增的本地 PDF 放在这里
@@ -30,7 +35,7 @@ evidence_scope/
     └── evaluate_retrieval.py     # 检索效果评测
 ```
 
-`main.py` 已接入完整的 Hybrid + Reranker 链路。Agent 调用 `search_evidence` 后，工具内部会依次执行 BM25 与 Dense 召回、加权 RRF 融合和 Cross-Encoder 重排。
+项目按 Harness、Skills、Tools 和 Retrieval 分层：`main.py` 只负责组装；Harness 管理 Agent Loop；Skill 定义本地文档研究流程；Tool 向 Agent 暴露检索能力；Retrieval 实现底层算法。Agent 调用 `search_evidence` 后，工具内部会依次执行 BM25 与 Dense 召回、加权 RRF 融合和 Cross-Encoder 重排。
 
 ## 环境准备
 

@@ -1,0 +1,92 @@
+[
+  {
+    "id": "test_001",
+    "question_type": "single_value",
+    "query": "宁德时代2025年在国内动力电池装机量市场占有率是多少？",
+    "relevant_chunk_ids": ["chunk_0075"],
+    "expected_answer": "43.42%",
+    "expected_unit": "百分比",
+    "notes": "第21页国内动力电池市场份额"
+  },
+  {
+    "id": "test_002",
+    "question_type": "paraphrase",
+    "query": "2025年宁德时代在海外动力电池市场拿到了多大份额？",
+    "relevant_chunk_ids": ["chunk_0075"],
+    "expected_answer": "海外动力电池使用量市占率30.0%",
+    "expected_unit": "百分比",
+    "notes": "用市场份额替换市占率测试语义改写"
+  },
+  {
+    "id": "test_003",
+    "question_type": "multi_value",
+    "query": "天恒6.25MWh储能系统相比上一代在能量密度和占地面积方面改善了多少？",
+    "relevant_chunk_ids": ["chunk_0079"],
+    "expected_answer": "单位面积能量密度提升30%，整站占地面积减少20%",
+    "expected_unit": "百分比",
+    "notes": "第22页储能产品介绍"
+  },
+  {
+    "id": "test_004",
+    "question_type": "multi_value",
+    "query": "宁德时代2025年在香港上市的日期、发行价格和募集资金总额分别是什么？",
+    "relevant_chunk_ids": ["chunk_0073"],
+    "expected_answer": "2025年5月20日，发行价263.00港元/股，募集资金总额410亿港元",
+    "expected_unit": "日期、港元/股、亿港元",
+    "notes": "第20页H股上市信息"
+  },
+  {
+    "id": "test_005",
+    "question_type": "multi_value",
+    "query": "宁德时代2025年财务费用是多少，同比变化多少？",
+    "relevant_chunk_ids": ["chunk_0121"],
+    "expected_answer": "财务费用-7,939,863千元，同比变化92.16%",
+    "expected_unit": "千元、百分比",
+    "notes": "第28页费用表"
+  },
+  {
+    "id": "test_006",
+    "question_type": "multi_value",
+    "query": "宁德时代2025年的加权平均净资产收益率及其同比变化是多少？",
+    "relevant_chunk_ids": ["chunk_0031"],
+    "expected_answer": "加权平均净资产收益率24.91%，同比增加0.78个百分点",
+    "expected_unit": "百分比、百分点",
+    "notes": "第11页主要财务指标"
+  },
+  {
+    "id": "test_007",
+    "question_type": "multi_value",
+    "query": "2025年宁德时代电气机械及器材制造业的毛利率是多少，比上年变化多少？",
+    "relevant_chunk_ids": ["chunk_0094"],
+    "expected_answer": "毛利率26.49%，比上年增加1.80个百分点",
+    "expected_unit": "百分比、百分点",
+    "notes": "第25页分业务收入成本表"
+  },
+  {
+    "id": "test_008",
+    "question_type": "descriptive",
+    "query": "宁德时代2025年的MSCI ESG和EcoVadis评级结果是什么？",
+    "relevant_chunk_ids": ["chunk_0087", "chunk_0088"],
+    "expected_answer": "MSCI ESG评级维持AA级，EcoVadis获得可持续发展银牌认证",
+    "expected_unit": "不适用",
+    "notes": "第24页可持续发展"
+  },
+  {
+    "id": "test_009",
+    "question_type": "descriptive",
+    "query": "宁德时代的乘用车电池产品覆盖哪些动力类型的细分市场？",
+    "relevant_chunk_ids": ["chunk_0044"],
+    "expected_answer": "BEV、REV、PHEV、HEV",
+    "expected_unit": "不适用",
+    "notes": "第15页乘用车应用领域"
+  },
+  {
+    "id": "test_010",
+    "question_type": "descriptive",
+    "query": "宁德时代用于家庭储能、工商储能和数据中心能源管理的产品系列分别有哪些？",
+    "relevant_chunk_ids": ["chunk_0045"],
+    "expected_answer": "PR系列、Unic系列及安鑫系列、PU系列",
+    "expected_unit": "不适用",
+    "notes": "第15页表后储能产品"
+  }
+]

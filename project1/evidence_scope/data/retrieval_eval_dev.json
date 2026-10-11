@@ -1,0 +1,182 @@
+[
+  {
+    "id": "dev_001",
+    "question_type": "single_value",
+    "query": "宁德时代2025年的营业收入是多少？",
+    "relevant_chunk_ids": ["chunk_0028", "chunk_0029", "chunk_0089", "chunk_0653", "chunk_0702", "chunk_1144", "chunk_1145", "chunk_1146"],
+    "expected_answer": "423,701,834千元",
+    "expected_unit": "千元",
+    "notes": "年报中多处披露2025年营业收入"
+  },
+  {
+    "id": "dev_002",
+    "question_type": "multi_value",
+    "query": "宁德时代2025年归属于上市公司股东的净利润是多少，同比增长多少？",
+    "relevant_chunk_ids": ["chunk_0029"],
+    "expected_answer": "72,201,282千元，同比增长42.28%",
+    "expected_unit": "千元、百分比",
+    "notes": "第11页主要会计数据和财务指标"
+  },
+  {
+    "id": "dev_003",
+    "question_type": "multi_value",
+    "query": "宁德时代2025年的研发投入金额及其占营业收入的比例分别是多少？",
+    "relevant_chunk_ids": ["chunk_0132"],
+    "expected_answer": "研发投入22,146,581千元，占营业收入5.23%",
+    "expected_unit": "千元、百分比",
+    "notes": "第30页近三年研发投入表"
+  },
+  {
+    "id": "dev_004",
+    "question_type": "hard_disambiguation",
+    "query": "宁德时代2025年一共销售了多少锂离子电池，相比上一年增长了多少？",
+    "relevant_chunk_ids": ["chunk_0073", "chunk_0074"],
+    "expected_answer": "锂离子电池销量661GWh，同比增长39.16%",
+    "expected_unit": "GWh、百分比",
+    "notes": "需要区分锂离子电池总销量与动力电池销量"
+  },
+  {
+    "id": "dev_005",
+    "question_type": "multi_value",
+    "query": "宁德时代2025年的锂电池产能和期末在建产能分别是多少？",
+    "relevant_chunk_ids": ["chunk_0087", "chunk_0088"],
+    "expected_answer": "锂电池产能772GWh，期末在建产能321GWh",
+    "expected_unit": "GWh",
+    "notes": "第24页供应链及产能"
+  },
+  {
+    "id": "dev_006",
+    "question_type": "descriptive",
+    "query": "宁德时代的储能电池主要应用于哪些场景？",
+    "relevant_chunk_ids": ["chunk_0044", "chunk_0045"],
+    "expected_answer": "公用事业储能、工商业储能及数据中心储能等表前和表后储能场景",
+    "expected_unit": "不适用",
+    "notes": "第15页储能电池系统业务介绍"
+  },
+  {
+    "id": "dev_007",
+    "question_type": "multi_value",
+    "query": "宁德时代2025年有多少名研发人员，研发人员数量占比是多少？",
+    "relevant_chunk_ids": ["chunk_0129"],
+    "expected_answer": "研发人员22,901人，占比12.32%",
+    "expected_unit": "人、百分比",
+    "notes": "第29页研发人员情况"
+  },
+  {
+    "id": "dev_008",
+    "question_type": "paraphrase",
+    "query": "公司2025年经营活动带来了多少现金净流入，较上年增长多少？",
+    "relevant_chunk_ids": ["chunk_0030", "chunk_0134"],
+    "expected_answer": "经营活动产生的现金流量净额133,219,982千元，同比增长37.35%",
+    "expected_unit": "千元、百分比",
+    "notes": "使用现金净流入表述测试语义改写"
+  },
+  {
+    "id": "dev_009",
+    "question_type": "multi_value",
+    "query": "宁德时代2025年基本每股收益是多少，同比增长多少？",
+    "relevant_chunk_ids": ["chunk_0030"],
+    "expected_answer": "基本每股收益16.14元/股，同比增长39.38%",
+    "expected_unit": "元/股、百分比",
+    "notes": "第11页主要财务指标"
+  },
+  {
+    "id": "dev_010",
+    "question_type": "multi_value",
+    "query": "宁德时代2025年末资产总额是多少，较上年末增长多少？",
+    "relevant_chunk_ids": ["chunk_0031"],
+    "expected_answer": "资产总额974,827,544千元，较上年末增长23.92%",
+    "expected_unit": "千元、百分比",
+    "notes": "第11页资产负债指标"
+  },
+  {
+    "id": "dev_011",
+    "question_type": "hard_disambiguation",
+    "query": "宁德时代2025年动力电池销量是多少，同比增长多少？",
+    "relevant_chunk_ids": ["chunk_0075"],
+    "expected_answer": "动力电池销量541GWh，同比增长41.85%",
+    "expected_unit": "GWh、百分比",
+    "notes": "需要区分动力电池销量与全部锂离子电池销量"
+  },
+  {
+    "id": "dev_012",
+    "question_type": "multi_value",
+    "query": "宁德时代2025年储能电池销量及同比增幅分别是多少？",
+    "relevant_chunk_ids": ["chunk_0079"],
+    "expected_answer": "储能电池销量121GWh，同比增长29.13%",
+    "expected_unit": "GWh、百分比",
+    "notes": "第22页储能业务"
+  },
+  {
+    "id": "dev_013",
+    "question_type": "multi_value",
+    "query": "宁德时代2025年全球动力电池使用量市占率是多少，连续多少年位居第一？",
+    "relevant_chunk_ids": ["chunk_0075"],
+    "expected_answer": "全球市占率39.2%，连续9年位居全球第一",
+    "expected_unit": "百分比、年",
+    "notes": "第21页动力业务"
+  },
+  {
+    "id": "dev_014",
+    "question_type": "multi_value",
+    "query": "宁德时代2025年境外收入是多少，占营业收入的比例是多少？",
+    "relevant_chunk_ids": ["chunk_0093"],
+    "expected_answer": "境外收入129,641,258千元，占营业收入30.60%",
+    "expected_unit": "千元、百分比",
+    "notes": "第25页境内外收入构成"
+  },
+  {
+    "id": "dev_015",
+    "question_type": "single_value",
+    "query": "报告期内宁德时代拥有及申请的国内外专利总数是多少？",
+    "relevant_chunk_ids": ["chunk_0071"],
+    "expected_answer": "54,538项",
+    "expected_unit": "项",
+    "notes": "第20页核心竞争力"
+  },
+  {
+    "id": "dev_016",
+    "question_type": "multi_value",
+    "query": "宁德时代2025年废旧电池及材料综合回收量是多少，同比增长多少？",
+    "relevant_chunk_ids": ["chunk_0088"],
+    "expected_answer": "综合回收量21.0万吨，同比增长63.2%",
+    "expected_unit": "万吨、百分比",
+    "notes": "第24页可持续发展"
+  },
+  {
+    "id": "dev_017",
+    "question_type": "single_value",
+    "query": "宁德时代2025年度利润分配预案每10股派发多少现金？",
+    "relevant_chunk_ids": ["chunk_0012"],
+    "expected_answer": "每10股派发现金分红69.57元（含税）",
+    "expected_unit": "元/10股",
+    "notes": "第6页利润分配预案"
+  },
+  {
+    "id": "dev_018",
+    "question_type": "multi_value",
+    "query": "宁德时代2025年的销售费用和管理费用分别是多少？",
+    "relevant_chunk_ids": ["chunk_0121"],
+    "expected_answer": "销售费用3,735,118千元，管理费用11,666,741千元",
+    "expected_unit": "千元",
+    "notes": "第28页费用表"
+  },
+  {
+    "id": "dev_019",
+    "question_type": "descriptive",
+    "query": "宁德时代2025年在乘用车动力电池领域发布了哪些新产品？",
+    "relevant_chunk_ids": ["chunk_0075"],
+    "expected_answer": "二代神行超充电池、神行Pro电池、骁遥双核电池、钠新乘用车动力电池",
+    "expected_unit": "不适用",
+    "notes": "第21页动力业务产品介绍"
+  },
+  {
+    "id": "dev_020",
+    "question_type": "multi_value",
+    "query": "宁德时代2025年储能系统集成业务全球交付了多少项目，出货规模增长多少？",
+    "relevant_chunk_ids": ["chunk_0079"],
+    "expected_answer": "全球交付超70个项目，出货规模同比增长超160%",
+    "expected_unit": "个、百分比",
+    "notes": "第22页储能业务"
+  }
+]
