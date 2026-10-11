@@ -1,6 +1,6 @@
 # EvidenceScope
 
-EvidenceScope 是一个面向中文企业与行业研究的学习型 Agent/RAG 项目。当前使用宁德时代 2025 年年度报告作为测试数据，已经实现基础 Tool Calling Agent、财务计算、PDF 字符串搜索、PDF 分块、BM25 检索和 Dense Retrieval。
+EvidenceScope 是一个面向中文企业与行业研究的学习型 Agent/RAG 项目。当前使用宁德时代 2025 年年度报告作为测试数据，已经实现基础 Tool Calling Agent、PDF 字符串搜索、PDF 分块、BM25、Dense Retrieval、基于 RRF 的 Hybrid Search 和初步检索评测。
 
 ## 当前目录
 
@@ -12,19 +12,21 @@ evidence_scope/
 ├── .env.example                  # 环境变量示例
 ├── data/
 │   ├── CATL_2025.pdf             # 宁德时代 2025 年年度报告
-│   ├── financial_facts.json      # 已整理的结构化财务数据
 │   ├── chunks.json               # PDF 分块结果
+│   ├── retrieval_eval.json       # 人工标注的检索评测数据
 │   └── dense_vectors.npy         # 运行 Dense Retrieval 后生成的向量索引
 ├── tools/
-│   ├── finance.py                # 财务数据查询与同比计算
 │   └── pdf_search.py             # PDF 精确关键词搜索
 └── retrieval/
+    ├── __init__.py               # 将 retrieval 标记为 Python 包
     ├── chunking.py               # PDF 文本提取与字符分块
     ├── bm25_search.py            # BM25 稀疏检索
-    └── dense_search.py           # BGE 中文向量检索
+    ├── dense_search.py           # BGE 中文向量检索
+    ├── hybrid_search.py          # 基于 RRF 的混合检索
+    └── evaluate_retrieval.py     # 检索效果评测
 ```
 
-`hybrid_search.py` 尚未实现，BM25 和 Dense Retrieval 也尚未接入 `main.py` 的 Agent Loop。
+Hybrid Search 尚未接入 `main.py` 的 Agent Loop；当前 Agent 仍使用早期的 PDF 精确关键词搜索工具。
 
 ## 环境准备
 
@@ -58,6 +60,8 @@ Set-Location .\project1\evidence_scope
 python .\retrieval\chunking.py
 ```
 
+当前按每块 500 个字符、相邻块重叠 150 个字符进行分块，最近一次生成 1378 个 Chunk。
+
 运行 BM25 检索示例：
 
 ```powershell
@@ -72,6 +76,15 @@ python .\retrieval\dense_search.py
 
 Dense Retrieval 使用 `BAAI/bge-small-zh-v1.5`。程序会优先从 Hugging Face 本地缓存加载模型，不会在每次启动时访问网络；如果本机没有模型缓存，首次运行才会尝试下载。生成的向量保存到 `data/dense_vectors.npy`。
 
+运行 Hybrid Search 和检索评测：
+
+```powershell
+python -m retrieval.hybrid_search
+python -m retrieval.evaluate_retrieval
+```
+
+Hybrid Search 当前使用加权 RRF，默认权重为 BM25 `1.5`、Dense `1.0`。该权重来自现有 7 道问题的对照实验，随着评测集扩充仍需重新验证。
+
 ## 运行 Agent
 
 确认 `.env` 已配置后，在项目目录执行：
@@ -82,9 +95,8 @@ python .\main.py
 
 当前 Agent 可调用：
 
-- `compare_revenue`：查询宁德时代 2024、2025 年营业收入并计算同比增长率。
 - `search_annual_report`：在年报中执行精确关键词搜索并返回原文和 PDF 页码。
 
 ## 当前开发重点
 
-下一步计划实现基于 RRF 的 Hybrid Search，将 BM25 与 Dense Retrieval 的候选结果融合，再进行小规模检索效果对比。当前项目尚未引入 Reranker、FastAPI、数据库或 Web 前端。
+当前已经建立包含 7 类问题的小规模评测集，并完成 BM25、Dense 和 Hybrid 的对比评测。下一步可以继续扩充评测问题，再针对 Dense 检索效果或 Reranker 做单变量实验。当前项目尚未引入 FastAPI、数据库或 Web 前端。

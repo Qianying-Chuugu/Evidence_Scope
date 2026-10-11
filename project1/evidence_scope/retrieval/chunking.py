@@ -1,5 +1,6 @@
 # 原始文本分块
-# 分块大小为 300 个字符，相邻分块重叠 60 个字符
+# 分块大小为 500 个字符，相邻分块重叠 150 个字符。
+# 较大的重叠区域用于减少“小节标题”和“具体数据”被分到两个 Chunk 的情况。
 
 import json
 from pathlib import Path
@@ -10,8 +11,8 @@ ROOT = Path(__file__).resolve().parents[1]
 PDF_PATH = ROOT / "data" / "CATL_2025.pdf"
 OUTPUT_PATH = ROOT / "data" / "chunks.json"
 
-CHUNK_SIZE = 300
-OVERLAP = 60
+CHUNK_SIZE = 500
+OVERLAP = 150
 
 def chunk_pdf():
     chunks = []
