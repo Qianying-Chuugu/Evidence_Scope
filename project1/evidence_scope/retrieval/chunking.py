@@ -1,3 +1,6 @@
+# 原始文本分块
+# 分块大小为800，重叠150
+
 import json
 from pathlib import Path
 
@@ -7,8 +10,8 @@ ROOT = Path(__file__).resolve().parents[1]
 PDF_PATH = ROOT / "data" / "CATL_2025.pdf"
 OUTPUT_PATH = ROOT / "data" / "chunks.json"
 
-CHUNK_SIZE = 800
-OVERLAP = 150
+CHUNK_SIZE = 300
+OVERLAP = 60
 
 def chunk_pdf():
     chunks = []

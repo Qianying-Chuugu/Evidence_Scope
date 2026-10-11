@@ -1,3 +1,6 @@
+#稀疏检索
+#采用BM25模型
+
 import json
 import jieba
 from pathlib import Path
@@ -21,24 +24,25 @@ class BM25Retriever:
             self.chunks = json.load(f)
         # 中文分词
         self.documents = [tokenize(chunk["text"]) for chunk in self.chunks]
+        # 简历bm25搜索索引
+        self.bm25 = BM25Okapi(self.documents)
 
-        self.bm25 = BM25Okapi(
-            self.documents
-        )
-
-    def search(self,query,top_k=5):
-
+    def search(self,query,top_k=10):
+        # 查询语句进行分词
         query_tokens = list(jieba.cut(query))
+        # 用查询分词进行算分
         scores = self.bm25.get_scores(query_tokens)
-
         results = []
         for index in scores.argsort()[::-1][:top_k]:
             results.append({
+                "chunk_id": self.chunks[index]["chunk_id"],
                 "score": float(scores[index]),
-                "page":self.chunks[index]["page"],
-                "text":self.chunks[index]["text"]
+                "page": self.chunks[index]["page"],
+                "text": self.chunks[index]["text"]
             })
         return results
+
+
 
 if __name__ == "__main__":
 
