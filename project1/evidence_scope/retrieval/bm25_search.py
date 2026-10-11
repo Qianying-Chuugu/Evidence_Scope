@@ -27,19 +27,26 @@ class BM25Retriever:
         # 简历bm25搜索索引
         self.bm25 = BM25Okapi(self.documents)
 
-    def search(self,query,top_k=10):
+    def search(self,query,top_k=10,source=None):
         # 查询语句进行分词
         query_tokens = list(tokenize(query))
         # 用查询分词进行算分
         scores = self.bm25.get_scores(query_tokens)
         results = []
-        for index in scores.argsort()[::-1][:top_k]:
+        for index in scores.argsort()[::-1]:
+            chunk = self.chunks[index]
+            if source and chunk.get("source", "").casefold() != source.casefold():
+                continue
             results.append({
-                "chunk_id": self.chunks[index]["chunk_id"],
+                "chunk_id": chunk["chunk_id"],
                 "score": float(scores[index]),
-                "page": self.chunks[index]["page"],
-                "text": self.chunks[index]["text"]
+                "source": chunk.get("source"),
+                "source_path": chunk.get("source_path", chunk.get("source")),
+                "page": chunk["page"],
+                "text": chunk["text"]
             })
+            if len(results) >= top_k:
+                break
         return results
 
 

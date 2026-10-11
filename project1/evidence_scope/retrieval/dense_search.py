@@ -48,7 +48,7 @@ class DenseRetriever:
         # 保存向量文档，避免每次启动都重新计算
         np.save(VECTOR_PATH, self.vectors)
 
-    def search(self, query, top_k=10):
+    def search(self, query, top_k=10, source=None):
         # 用户问题转换为向量
         query_vector = self.model.encode(
             query,
@@ -57,15 +57,22 @@ class DenseRetriever:
         # 计算余弦相似度
         scores = self.vectors @ query_vector
         # 取分数最高的 Top-K
-        indices = np.argsort(scores)[::-1][:top_k]
+        indices = np.argsort(scores)[::-1]
         results = []
         for index in indices:
+            chunk = self.chunks[index]
+            if source and chunk.get("source", "").casefold() != source.casefold():
+                continue
             results.append({
-                "chunk_id": self.chunks[index]["chunk_id"],
-                "page": self.chunks[index]["page"],
+                "chunk_id": chunk["chunk_id"],
+                "source": chunk.get("source"),
+                "source_path": chunk.get("source_path", chunk.get("source")),
+                "page": chunk["page"],
                 "score": float(scores[index]),
-                "text": self.chunks[index]["text"]
+                "text": chunk["text"]
             })
+            if len(results) >= top_k:
+                break
         return results
 
 

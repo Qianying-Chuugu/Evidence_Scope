@@ -28,6 +28,8 @@ def reciprocal_rank_fusion(
         # 1 / (rrf_k + rank)
         fused_results[chunk_id] = {
             "chunk_id": chunk_id,
+            "source": item.get("source"),
+            "source_path": item.get("source_path", item.get("source")),
             "page": item["page"],
             "text": item["text"],
             # 权重越大，这一路检索结果对最终排名的影响越大。
@@ -42,6 +44,8 @@ def reciprocal_rank_fusion(
         if chunk_id not in fused_results:
             fused_results[chunk_id] = {
                 "chunk_id": chunk_id,
+                "source": item.get("source"),
+                "source_path": item.get("source_path", item.get("source")),
                 "page": item["page"],
                 "text": item["text"],
                 "rrf_score": 0.0,
@@ -93,6 +97,7 @@ class HybridRetriever:
         rrf_k=60,
         bm25_weight=DEFAULT_BM25_WEIGHT,
         dense_weight=DEFAULT_DENSE_WEIGHT,
+        source=None,
     ):
         """
         执行一次混合检索。
@@ -103,6 +108,7 @@ class HybridRetriever:
         rrf_k：RRF 公式中的平滑常数。
         bm25_weight：BM25 排名分数的权重。
         dense_weight：Dense 排名分数的权重。
+        source：可选文件名；提供后只在该文件中检索。
         """
         query = query.strip()
         # 如果删除空格后字符串为空，就拒绝执行检索。
@@ -117,11 +123,13 @@ class HybridRetriever:
         bm25_results = self.bm25.search(
             query=query,
             top_k=candidate_k,
+            source=source,
         )
         # 调用 DenseRetriever.search()，得到稠密排序的召回结果。
         dense_results = self.dense.search(
             query=query,
             top_k=candidate_k,
+            source=source,
         )
 
         # 把两路候选交给已经测试通过的 RRF 函数。
