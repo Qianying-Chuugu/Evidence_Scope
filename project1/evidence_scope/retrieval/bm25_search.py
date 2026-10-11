@@ -29,7 +29,7 @@ class BM25Retriever:
 
     def search(self,query,top_k=10):
         # 查询语句进行分词
-        query_tokens = list(jieba.cut(query))
+        query_tokens = list(tokenize(query))
         # 用查询分词进行算分
         scores = self.bm25.get_scores(query_tokens)
         results = []

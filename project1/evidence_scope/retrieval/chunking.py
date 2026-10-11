@@ -1,5 +1,5 @@
 # 原始文本分块
-# 分块大小为800，重叠150
+# 分块大小为 300 个字符，相邻分块重叠 60 个字符
 
 import json
 from pathlib import Path

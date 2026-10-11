@@ -11,13 +11,23 @@ CHUNK_PATH = ROOT / "data" / "chunks.json"
 VECTOR_PATH = ROOT / "data" / "dense_vectors.npy"
 MODEL_NAME = "BAAI/bge-small-zh-v1.5"
 
+
+def load_embedding_model():
+    #优先从本地缓存加载模型，避免每次启动都访问 Hugging Face。
+    try:
+        return SentenceTransformer(MODEL_NAME, local_files_only=True)
+    except OSError:
+        print("本地未找到 Embedding 模型，首次运行将从 Hugging Face 下载。")
+        return SentenceTransformer(MODEL_NAME)
+
+
 class DenseRetriever:
     def __init__(self):
         # 读取文档分块
         with open(CHUNK_PATH, "r", encoding="utf-8") as f:
             self.chunks = json.load(f)
         # 加载 Embedding 模型
-        self.model = SentenceTransformer(MODEL_NAME)
+        self.model = load_embedding_model()
         # 读取已有向量，或首次生成向量
         if VECTOR_PATH.exists() and VECTOR_PATH.stat().st_mtime >= CHUNK_PATH.stat().st_mtime:
             self.vectors = np.load(VECTOR_PATH)
