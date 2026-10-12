@@ -1,7 +1,7 @@
 """扫描本地 PDF 文件并生成统一的 chunks.json。
 
 使用方法：
-1. 把新的 PDF 放入 data/documents 目录；可以继续保留原来的 data/CATL_2025.pdf。
+1. 把需要检索的 PDF 放入 data/documents 目录。
 2. 在 evidence_scope 目录运行：python -m retrieval.chunking
 3. 下次启动 Dense 检索时，会发现 chunks.json 已更新并自动重建向量。
 """
@@ -15,7 +15,6 @@ import pymupdf
 ROOT = Path(__file__).resolve().parents[1]
 DATA_DIR = ROOT / "data"
 DOCUMENTS_DIR = DATA_DIR / "documents"
-LEGACY_PDF_PATH = DATA_DIR / "CATL_2025.pdf"
 OUTPUT_PATH = DATA_DIR / "chunks.json"
 
 CHUNK_SIZE = 500
@@ -24,8 +23,6 @@ OVERLAP = 150
 def discover_pdf_files():
     """返回需要建立索引的 PDF；排序保证重复运行结果顺序一致。"""
     pdf_files = []
-    if LEGACY_PDF_PATH.exists():
-        pdf_files.append(LEGACY_PDF_PATH)
     if DOCUMENTS_DIR.exists():
         pdf_files.extend(DOCUMENTS_DIR.rglob("*.pdf"))
 
@@ -66,13 +63,10 @@ def chunk_documents():
                     chunk_text = text[start:end]
                     document_chunk_number += 1
 
-                    # 旧年报继续沿用原有 ID，保证已有 30 道评测题仍然有效。
-                    if pdf_path == LEGACY_PDF_PATH.resolve():
-                        chunk_id = f"chunk_{document_chunk_number:04d}"
-                    else:
-                        chunk_id = (
-                            f"doc_{document_id}_chunk_{document_chunk_number:04d}"
-                        )
+                    # 文档 ID 来自相对路径，因此不同文件中的 Chunk 不会重名。
+                    chunk_id = (
+                        f"doc_{document_id}_chunk_{document_chunk_number:04d}"
+                    )
 
                     chunks.append(
                         {

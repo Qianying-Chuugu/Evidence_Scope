@@ -1,23 +1,14 @@
 """通用 Agent Harness：负责模型调用、循环控制和工具执行。"""
 
 import json
-
 from openai import OpenAIError
 
 
 class AgentHarness:
-    def __init__(
-        self,
-        client,
-        model,
-        system_prompt,
-        tool_schemas,
-        tool_executor,
-        max_iterations=6,
-    ):
+    def __init__(self,client, model,initial_messages,tool_schemas,tool_executor,max_iterations=6,):
         self.client = client
         self.model = model
-        self.system_prompt = system_prompt
+        self.initial_messages = initial_messages
         self.tool_schemas = tool_schemas
         self.tool_executor = tool_executor
         self.max_iterations = max_iterations
@@ -29,12 +20,10 @@ class AgentHarness:
             return "问题不能为空。"
 
         # 每次调用 run() 都创建独立消息历史，避免不同问题互相污染。
-        messages = [
-            {"role": "system", "content": self.system_prompt},
-            {"role": "user", "content": question},
-        ]
+        messages = [dict(message) for message in self.initial_messages]
+        messages.append({"role": "user", "content": question})
 
-        for _ in range(self.max_iterations):
+        for i in range(self.max_iterations):
             try:
                 response = self.client.chat.completions.create(
                     model=self.model,
@@ -58,14 +47,7 @@ class AgentHarness:
                 try:
                     arguments = json.loads(tool_call.function.arguments)
                     result = self.tool_executor(tool_name, arguments)
-                except (
-                    json.JSONDecodeError,
-                    ValueError,
-                    KeyError,
-                    TypeError,
-                    RuntimeError,
-                    OSError,
-                ) as error:
+                except (json.JSONDecodeError,ValueError,KeyError,TypeError,RuntimeError,OSError,) as error:
                     # 把错误作为工具结果交还给模型，让模型可以解释或改用其他参数。
                     result = json.dumps(
                         {"error": str(error)},
@@ -80,7 +62,6 @@ class AgentHarness:
                         "content": result,
                     }
                 )
-
         return "Agent 达到最大迭代次数，任务终止。"
 
     @staticmethod

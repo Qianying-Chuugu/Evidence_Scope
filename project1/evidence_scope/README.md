@@ -14,17 +14,15 @@ evidence_scope/
 │   ├── harness.py                # Agent Loop、模型调用与异常处理
 │   └── tool_registry.py          # 工具 Schema 与函数调用映射
 ├── skills/
-│   └── local_document_qa.py      # 本地文档问答系统提示词
+│   └── __init__.py               # 预留给后续标准 SKILL.md 能力包
 ├── data/
-│   ├── CATL_2025.pdf             # 宁德时代 2025 年年度报告
-│   ├── documents/                # 新增的本地 PDF 放在这里
+│   ├── documents/                # 需要检索的本地 PDF
 │   ├── chunks.json               # PDF 分块结果
 │   ├── retrieval_eval_dev.json   # 20 题开发集，可用于调参
 │   ├── retrieval_eval_test.json  # 10 题冻结测试集，只用于最终检查
 │   └── dense_vectors.npy         # 运行 Dense Retrieval 后生成的向量索引
 ├── tools/
-│   ├── evidence_search.py        # Agent 使用的完整 RAG 检索工具
-│   └── pdf_search.py             # 早期 PDF 精确关键词搜索
+│   └── evidence_search.py        # Agent 使用的完整 RAG 检索工具
 └── retrieval/
     ├── __init__.py               # 将 retrieval 标记为 Python 包
     ├── chunking.py               # PDF 文本提取与字符分块
@@ -35,7 +33,7 @@ evidence_scope/
     └── evaluate_retrieval.py     # 检索效果评测
 ```
 
-项目按 Harness、Skills、Tools 和 Retrieval 分层：`main.py` 只负责组装；Harness 管理 Agent Loop；Skill 定义本地文档研究流程；Tool 向 Agent 暴露检索能力；Retrieval 实现底层算法。Agent 调用 `search_evidence` 后，工具内部会依次执行 BM25 与 Dense 召回、加权 RRF 融合和 Cross-Encoder 重排。
+项目按 Harness、Tools 和 Retrieval 分层：`main.py` 保存初始 `messages` 并负责组装；Harness 管理 Agent Loop；Tool 向 Agent 暴露检索能力；Retrieval 实现底层算法。`skills/` 暂时预留，等后续出现真正需要按需加载的能力时再添加标准 `SKILL.md`。Agent 调用 `search_evidence` 后，工具内部会依次执行 BM25 与 Dense 召回、加权 RRF 融合和 Cross-Encoder 重排。
 
 ## 环境准备
 
@@ -69,7 +67,7 @@ Set-Location .\project1\evidence_scope
 python -m retrieval.chunking
 ```
 
-程序会扫描 `data/documents/` 下的所有 PDF，同时兼容现有的 `data/CATL_2025.pdf`。当前按每块 500 个字符、相邻块重叠 150 个字符分块，并为每个 Chunk 保存文件名、文件路径和 PDF 页码。分块完成后不需要手动生成向量；下一次启动 Dense 检索或 Agent 时会检测文件更新时间并自动重建向量。
+程序会扫描 `data/documents/` 下的所有 PDF。当前按每块 500 个字符、相邻块重叠 150 个字符分块，并为每个 Chunk 保存文件名、文件路径和 PDF 页码。分块完成后不需要手动生成向量；下一次启动 Dense 检索或 Agent 时会检测文件更新时间并自动重建向量。
 
 运行 BM25 检索示例：
 

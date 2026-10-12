@@ -171,11 +171,7 @@ EvidenceScope 希望通过 Agent、RAG 和证据核验机制改善这些问题�
 - 集中保存工具 Schema 和工具名称到 Python 函数的映射。
 - Harness 通过注册表调用工具，不直接依赖工具实现。
 
-`skills/local_document_qa.py`
-
-- 保存本地商业文档问答的系统提示词。
-- 定义查询构造、补充检索、证据核验、引用格式和拒绝编造规则。
-- 后续新增研究工作流时，可以继续添加独立 Skill，而不修改 Harness。
+系统提示词直接作为 `main.py` 中初始 `messages` 的第一条消息传给 Harness。`skills/` 目前只作预留；以后真正需要按需加载的专业能力时，再按 `SKILL.md` 规范实现。
 
 ### 2. 早期财务计算工具（已移除）
 
@@ -183,17 +179,7 @@ EvidenceScope 希望通过 Agent、RAG 和证据核验机制改善这些问题�
 
 为了聚焦通用 RAG 检索与评测流程，避免继续维护硬编码数据，该功能现阶段已从代码中移除。以后如需恢复确定性财务计算，应基于“检索证据、结构化提取、证据核验、Python 计算”的通用流程重新实现。
 
-### 3. PDF 搜索工具
-
-`tools/pdf_search.py`
-
-- 使用 PyMuPDF 读取 PDF。
-- 根据关键词查找相关原文。
-- 返回匹配内容及 PDF 页码。
-
-这是早期的字符串搜索版本，目前保留用于对照，但已不再作为 Agent 的默认工具。
-
-### 3.1 Agent RAG 检索工具
+### 3. Agent RAG 检索工具
 
 `tools/evidence_search.py`
 
@@ -209,7 +195,7 @@ EvidenceScope 希望通过 Agent、RAG 和证据核验机制改善这些问题�
 `retrieval/chunking.py`
 
 - 使用 PyMuPDF 解析本地 PDF。
-- 扫描 `data/documents/` 下的多个 PDF，并兼容原有 `data/CATL_2025.pdf`。
+- 扫描 `data/documents/` 下的多个 PDF。
 - 当前采用基于字符数和重叠区域的分块策略。
 - 将结果保存到 `data/chunks.json`。
 - 每个 Chunk 包含 `chunk_id`、`document_id`、`source`、`source_path`、`page`、`text` 等信息。

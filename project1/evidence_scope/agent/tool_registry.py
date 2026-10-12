@@ -1,7 +1,6 @@
 """集中注册 Agent 可以调用的工具。"""
 
 import json
-
 from tools.evidence_search import evidence_tool_schema, search_evidence
 
 
